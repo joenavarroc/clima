@@ -1,0 +1,12 @@
+    #clima-loader {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+    #icono-clima img {
+      width: 100px;
+      height: 100px;
+    }
+    #myDropdown a {
+      cursor: pointer;
+    }
