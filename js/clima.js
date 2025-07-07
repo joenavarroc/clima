@@ -140,8 +140,8 @@ function mostrarClima(visible) {
 function hablar(texto) {
     if (muteado) return;
 
-    if (mensajeActual) {
-        sintetizador.cancel(); // Detener el mensaje actual
+    if (sintetizador.speaking || sintetizador.paused) {
+        sintetizador.cancel();  // Esto detiene todo
     }
 
     mensajeActual = new SpeechSynthesisUtterance(texto);
