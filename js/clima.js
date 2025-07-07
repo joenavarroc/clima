@@ -136,15 +136,34 @@ function mostrarClima(visible) {
     climaLoader.style.display = visible ? 'block' : 'none';
 }
 
-// Manejador para checkbox de mute
+// Función para hablar (Play)
+function hablar(texto) {
+    if (muteado) return;
+
+    if (mensajeActual) {
+        sintetizador.cancel(); // Detener el mensaje actual
+    }
+
+    mensajeActual = new SpeechSynthesisUtterance(texto);
+    mensajeActual.lang = "es-ES";
+
+    mensajeActual.onend = function () {
+        mensajeActual = null;
+    };
+
+    sintetizador.speak(mensajeActual);
+}
+
+// Manejador del checkbox de mute
 document.getElementById("checkboxInput").addEventListener("change", function() {
     muteado = this.checked;
+
     if (muteado && sintetizador.speaking) {
-        sintetizador.cancel();
+        sintetizador.cancel(); // Detener cualquier síntesis
     }
 });
 
-// Controles de voz
+// Funciones de control
 function pausar() {
     if (sintetizador.speaking && !sintetizador.paused) {
         sintetizador.pause();
@@ -162,11 +181,14 @@ function detener() {
     mensajeActual = null;
 }
 
+// Asignar eventos
 document.getElementById("pauseButton").addEventListener("click", pausar);
 document.getElementById("playButton").addEventListener("click", reanudar);
 
+// Cancelar cualquier síntesis al cargar
 window.onload = function() {
     if (sintetizador.speaking) {
         sintetizador.cancel();
     }
 };
+
